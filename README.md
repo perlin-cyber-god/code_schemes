@@ -153,3 +153,52 @@ The autocorrelation of an m-sequence is a "thumbtack" function:
 *   It is **$-1/L$** (effectively zero for large $L$) for all other shifts.
 
 This mathematical certainty is what allows a radar to detect a tiny target echo buried in noise: the "peak" is $L$ times stronger than the misaligned "noise-floor," providing a massive processing gain.
+
+---
+
+## 10. Practical Validation: A Numerical Example
+
+Let's see the math in action using a simple 7-bit m-sequence ($n=3, L=7$). We map the bits to polar values $[+1, -1]$.
+
+**Template Sequence:** `[ 1,  1,  1, -1, -1,  1, -1]`
+
+### Scenario A: Misalignment (The wave hasn't arrived yet, $\tau=1$)
+The echo is lagging by one position. We line them up and multiply each bit:
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | **SUM** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Template** | 1 | 1 | 1 | -1 | -1 | 1 | -1 | |
+| **Echo (Shifted)** | -1 | 1 | 1 | 1 | -1 | -1 | 1 | |
+| **Product** | -1 | 1 | 1 | -1 | 1 | -1 | -1 | **-1** |
+
+**Result:** The sum is $-1$. On the radar screen, this is indistinguishable from background noise. The target is "invisible" at this time delay.
+
+### Scenario B: Perfect Alignment (The moment of impact, $\tau=0$)
+The echo hits the antenna at the exact microsecond where it lines up with the stored template:
+
+| Index | 1 | 2 | 3 | 4 | 5 | 6 | 7 | **SUM** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Template** | 1 | 1 | 1 | -1 | -1 | 1 | -1 | |
+| **Echo (Match)** | 1 | 1 | 1 | -1 | -1 | 1 | -1 | |
+| **Product** | 1 | 1 | 1 | 1 | 1 | 1 | 1 | **7** |
+
+**Result:** The sum is **7**! Because even the negative bits multiply to a positive ($-1 \times -1 = 1$), all the spread-out energy across the 7 bits constructively interferes and "stacks up" into a single massive peak.
+
+---
+
+## 11. The Physical Magic: High Peak vs. High Energy
+
+This validation reveals the core advantage of LPI (Low Probability of Intercept) radar over traditional "brute force" systems.
+
+### The Old Radar Approach (Peak Power)
+To get a detection signal strength of **7 units**, an old-fashioned radar had to blast a single, ultra-short pulse with a **peak power of 7 Megawatts** in 1 microsecond. 
+*   **Cost:** Required massive, high-voltage vacuum tubes.
+*   **Risk:** The 7MW blast is like a lighthouse in the dark; every enemy receiver for hundreds of miles would immediately see your location.
+
+### The Modern LPI Approach (Pulse Compression)
+Instead of one massive blast, your radar uses a cool, efficient **1 Megawatt** transmitter and keeps it on for **7 microseconds**, flipping the phase according to the code.
+*   **Hardware Safety:** The transmitter never exceeds 1MW, preventing internal "frying" and thermal stress.
+*   **Stealth:** A 1MW continuous signal is much harder to distinguish from background atmospheric noise than a 7MW spike.
+*   **The "Magic":** When the receiver performs the multiplication shown in Scenario B, it **synthetically** creates that 7-unit peak. 
+
+By spreading the energy over time (Integration) and using the "uniqueness" of the Galois code to compress it back together, we achieve the performance of a 7MW radar using only a 1MW transmitter. This is the essence of modern, invisible electronic warfare.
