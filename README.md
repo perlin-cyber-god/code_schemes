@@ -202,3 +202,40 @@ Instead of one massive blast, your radar uses a cool, efficient **1 Megawatt** t
 *   **The "Magic":** When the receiver performs the multiplication shown in Scenario B, it **synthetically** creates that 7-unit peak. 
 
 By spreading the energy over time (Integration) and using the "uniqueness" of the Galois code to compress it back together, we achieve the performance of a 7MW radar using only a 1MW transmitter. This is the essence of modern, invisible electronic warfare.
+
+---
+
+## 12. The Doppler Challenge: Physical Phase Twisting
+
+While the 7-bit Galois code provides incredible processing gain, it faces a lethal physical enemy: **The Doppler Shift**. Target motion doesn't just change the frequency; it physically squeezes the wave and twists its phase at the micro-scale.
+
+### A. The "Moving Wall" Analogy (Wave Squeezing)
+To understand why the signal changes, imagine standing still and throwing tennis balls at a wall at a rhythm of 1 ball per second.
+
+1.  **Stationary Wall:** The balls bounce and return to you at the same rhythm: 1 per second.
+2.  **Rushing Wall:** If the wall is moving toward you, Ball 1 hits and returns. While Ball 1 is traveling back, the wall moves closer. When you throw Ball 2, it has a shorter distance to travel to hit the wall and a shorter distance to return. 
+    *   **The Result:** Ball 2 arrives sooner than expected. To your hand, the balls are now arriving at a faster rhythm (e.g., 1.5 per second).
+    *   **The Squeezing:** The motion of the wall physically compressed the space between the balls. In radar, this "squeezing" is what we call frequency shifting.
+
+### B. Micro-Scale Physics: The 3cm World
+In the air, these effects are almost invisible to the naked eye, but to a radar, they are massive. Standard military **X-band radar** operates with a wavelength ($\lambda$) of approximately **3 centimetres**.
+
+*   **Positive Peak to Negative Valley:** In a 3cm wave, the distance between the highest point (peak) and the lowest point (valley) is only **1.5 centimetres**.
+*   **The Precision Requirement:** For our 7-bit code to work, the radar expects the target to stay "still" during the microsecond the pulse is hitting it. If the target moves, the phase of the reflection changes.
+
+### C. The Physical Cause of Phase Rotation
+The "twisting" of the signal doesn't happen in the radar's computer or in the air—it happens at the **exact microsecond** the wave hits the moving metal skin of the enemy jet.
+
+1.  **Bit 1 Reflection:** The front of the 7-bit melody hits the jet first. Let's say it hits the jet at a position of exactly $D$ metres. It reflects off a "Peak" ($\uparrow$).
+2.  **Target Motion:** If the jet is flying at 600 m/s (approx. Mach 1.8), it is moving very fast. In the tiny fraction of a second it takes for the rest of the 7-bit code to arrive, the jet has moved forward.
+3.  **Bit 7 Reflection:** By the time the tail end of the code (Bit 7) arrives, the jet has rushed forward by, say, **1.5 centimetres**.
+4.  **The Flip:** Because the jet is now 1.5cm closer, Bit 7 doesn't hit the jet at the "Peak" like Bit 1 did. It hits the jet at the "Valley" ($\downarrow$).
+
+### D. The Problem: A Broken Correlation
+This physical 1.5cm shift causes a **180-degree phase rotation**. 
+*   In your computer, Bit 1 looks like a `+1`.
+*   But Bit 7, which was supposed to be a `+1`, has been physically twisted into a `-1` by the jet's motion.
+
+**The Catastrophic Failure:** When your radar's Matched Filter tries to multiply the echo by the template, the bits no longer align. Instead of summing up to a giant peak of `7`, the twisted bits cancel each other out. The target disappears from the radar screen not because it isn't there, but because its **speed** has physically "scrambled" the secret code.
+
+To solve this, modern radars don't just use one filter; they use a "bank" of filters, each tuned to a different possible speed, to untwist the phase and recover the stealthy melody.
