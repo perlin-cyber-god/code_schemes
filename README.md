@@ -110,3 +110,46 @@ The choice of which stages to tap is everything. The taps correspond to the coef
     3.  **Correlation Properties:** While all primitive polynomials of the same degree produce sequences of the same length, different tap configurations can result in different "cross-correlation" properties, which is vital when multiple radars are operating in the same area (to avoid jamming each other).
 
 By tapping the register according to a primitive polynomial, we transform a simple string of flip-flops into a mathematical engine capable of generating deterministic, noise-like "stealth melodies."
+
+---
+
+## 9. Mathematical Proof: The Autocorrelation of M-Sequences
+
+To understand why m-sequences are "perfect" for radar, we must look at the rigorous proof of their autocorrelation properties.
+
+### A. Mapping to Polar Coordinates
+We map the binary sequence $\{0, 1\}$ to polar coordinates $\{+1, -1\}$ using the transformation:
+$$x_i = (-1)^{b_i}$$
+where $b_i$ is the binary bit. In this mapping:
+*   Binary `0` $\rightarrow +1$
+*   Binary `1` $\rightarrow -1$
+*   The XOR operation in binary becomes **multiplication** in polar space.
+
+### B. Core Properties
+1.  **Length ($L$):** For a register of degree $n$, $L = 2^n - 1$. Note that $L$ is always an **odd** number.
+2.  **The Balance Property:** There is always exactly one more `1` than `0` in binary. In polar terms, there is one more $-1$ than $+1$.
+    *   Sum of all bits: $\sum_{i=1}^{L} x_i = -1$.
+3.  **Shift-and-Add Property:** If you cyclically shift an m-sequence by any amount $\tau \neq 0$ and multiply it bit-by-bit with the original, the result is simply another shifted version of the **same m-sequence**.
+
+### C. The Autocorrelation Formula
+The periodic autocorrelation $R(\tau)$ is defined as:
+$$R(\tau) = \frac{1}{L} \sum_{i=1}^{L} x_i \cdot x_{i+\tau}$$
+
+#### Case 1: Perfect Alignment ($\tau = 0$)
+When the sequences are perfectly aligned, every bit is multiplied by itself:
+*   $(+1) \cdot (+1) = 1$
+*   $(-1) \cdot (-1) = 1$
+$$R(0) = \frac{1}{L} \sum_{i=1}^{L} 1 = \frac{1}{L} \cdot L = 1$$
+This is the **Correlation Peak**. All "10,000 syllables" reinforce each other perfectly.
+
+#### Case 2: Misalignment ($\tau \neq 0$)
+By the **Shift-and-Add Property**, the product $x_i \cdot x_{i+\tau}$ results in a new shifted m-sequence $\{x_k\}$.
+According to the **Balance Property**, the sum of any m-sequence is always $-1$.
+$$R(\tau) = \frac{1}{L} \sum_{k=1}^{L} x_k = \frac{1}{L} \cdot (-1) = -\frac{1}{L}$$
+
+### D. Conclusion
+The autocorrelation of an m-sequence is a "thumbtack" function:
+*   It is **$1$** at $\tau = 0$.
+*   It is **$-1/L$** (effectively zero for large $L$) for all other shifts.
+
+This mathematical certainty is what allows a radar to detect a tiny target echo buried in noise: the "peak" is $L$ times stronger than the misaligned "noise-floor," providing a massive processing gain.
