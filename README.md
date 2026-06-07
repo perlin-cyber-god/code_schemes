@@ -239,3 +239,34 @@ This physical 1.5cm shift causes a **180-degree phase rotation**.
 **The Catastrophic Failure:** When your radar's Matched Filter tries to multiply the echo by the template, the bits no longer align. Instead of summing up to a giant peak of `7`, the twisted bits cancel each other out. The target disappears from the radar screen not because it isn't there, but because its **speed** has physically "scrambled" the secret code.
 
 To solve this, modern radars don't just use one filter; they use a "bank" of filters, each tuned to a different possible speed, to untwist the phase and recover the stealthy melody.
+
+---
+
+## 13. The Physics of the Spectrum: Choosing the Right Band
+
+We cannot choose radio bands randomly. The laws of physics dictate how different frequencies behave in the atmosphere, and choosing the wrong band can render a million-dollar system useless.
+
+### A. The Core Trade-Off: Frequency vs. Wavelength
+The radio spectrum is governed by the relationship: $c = f \lambda$ (where $c$ is the speed of light, $f$ is frequency, and $\lambda$ is wavelength).
+
+*   **Low Frequencies (Long Waves):** Travel vast distances and "punch" through obstacles (rain, walls, foliage), but they cannot see small details.
+*   **High Frequencies (Short Waves):** Carry massive amounts of data and can "see" tiny physical details, but they are easily absorbed or blocked by weather (rain, fog, clouds).
+
+### B. The Spectrum Lineup: Military & Commercial Applications
+
+| Band | Frequency Range (Approx.) | Primary Applications | The Logic |
+| :--- | :---: | :--- | :--- |
+| **VHF / UHF** | 30 MHz – 1 GHz | Early Warning Radar, TV/Radio, Long-range Comm. | Waves bend over the horizon and penetrate deep vegetation. Antennas must be massive. |
+| **L-Band** | 1 – 2 GHz | GPS, Air Traffic Control, Long-range Surveillance | A perfect balance. Waves pass through heavy rain and storm clouds without losing power. |
+| **S-Band** | 2 – 4 GHz | Weather Radar, Shipborne Surveillance, Wi-Fi/Bluetooth | High enough for decent tracking, low enough to "see" through heavy weather. |
+| **C-Band** | 4 – 8 GHz | Satellite Comm, Terminal Weather Radar | Used for long-distance satellite links; requires smaller dishes than L-band. |
+| **X-Band** | 8 – 12 GHz | **Missile Guidance, Target Tracking**, High-res Imaging | Waves are small enough (3cm) to map fine details. Equipment is small and mobile. |
+| **Ku-Band** | 12 – 18 GHz | Satellite TV, Drone Video Feeds | Offers high bandwidth for HD video streams, but can be blocked by heavy clouds. |
+| **Ka-Band** | 26 – 40 GHz | High-speed Sat Internet, Vehicle Radar, 5G | Massive data pipelines. Highly sensitive to "rain fade" (even wet leaves can block it). |
+
+### C. Why This Matters for Radar
+1.  **Antenna Size:** A lower frequency (L-band) needs a larger physical antenna to focus the beam. A higher frequency (X-band) can achieve the same focus with a compact antenna that fits on a fighter jet.
+2.  **Weather Resistance:** An S-band weather radar is used because it can see the rain itself to measure it. An X-band target-tracker might struggle in a tropical downpour because the rain absorbs the energy before it hits the target.
+3.  **Resolution:** High-frequency waves have a wide **bandwidth**, allowing for more "syllables" in our 10,000-syllable code. This increases the radar's ability to distinguish between two objects flying close together.
+
+By matching the band to the mission, engineers ensure the radar has the right balance of stealth, range, and clarity.
