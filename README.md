@@ -335,3 +335,35 @@ For many high-altitude platforms, weather is simply not a factor.
 *   **Clear Path:** When they transmit high-frequency data to a satellite, the signal travels through empty, crystal-clear air, avoiding atmospheric interference entirely.
 
 By combining these five strategies, military systems ensure that they can operate with high-frequency precision without being defeated by a simple rainstorm.
+
+---
+
+## 15. Stealth Communication: DSSS and CDMA
+
+Beyond radar, Galois math and pseudo-random sequences power the world of secure military communications. The two core technologies used are **DSSS** (the stealth trick) and **CDMA** (the multi-user trick).
+
+### 1. DSSS (Direct Sequence Spread Spectrum): The "Invisibility" Layer
+To understand DSSS, imagine a fighter jet needs to send a critical "Target Locked" message to its wingman without the enemy's ESM (Electronic Support Measures) detecting the transmission.
+
+*   **The "Spreading" Secret:** Every single bit of the data (the 1s and 0s of the message) is multiplied by a long, high-speed mathematical sequence (a **Chipping Code** or PN sequence).
+*   **Physical Stretching:** Because the chipping code is moving thousands of times faster than the data, it physically stretches (spreads) the signal across a very wide frequency band.
+*   **The Result:** The signal power becomes so thin and wide that it drops **below the background noise floor**. To an enemy interceptor, the transmission looks like natural atmospheric static.
+*   **The Receiver's Trick:** The wingman's jet knows the exact chipping code. Using a **Matched Filter**, its computer compresses the noisy signal back into a sharp, narrow, readable peak of data.
+
+### 2. CDMA (Code Division Multiple Access): The "Multi-User" Layer
+CDMA takes the DSSS trick and allows hundreds of users to talk at once on the **same frequency** without interfering.
+
+*   **The "International Airport" Analogy:** Imagine a terminal where 100 couples are talking at the same time in the same room.
+    *   **Traditional Network:** Couples would have to take turns (Time Division) or sit in separate soundproof booths (Frequency Division).
+    *   **CDMA Network:** Everyone speaks at once. However, Couple A speaks **Mandarin**, Couple B speaks **Spanish**, and Couple C speaks **French**.
+*   **The Outcome:** To the Spanish speakers, the Mandarin and French voices just sound like a low, meaningless background hum. They can cleanly lock onto their partner because they "know the code" of the Spanish language.
+
+### 3. Fighter Jet Scenario: The Combat Data Link
+Imagine a four-ship formation of **Su-30MKI** or **Tejas** fighters flying a mission:
+1.  **Shared Airspace:** All four jets are using the exact same radio frequency band to save spectral space.
+2.  **Unique "Languages":** Each jet is assigned a unique **Gold Code** (a specific type of Galois-generated sequence). 
+3.  **Simultaneous Comms:** Pilot 1 can send radar data to Pilot 3, while Pilot 2 is simultaneously talking to Pilot 4. 
+4.  **No Jamming:** Because their "languages" (codes) are mathematically orthogonal (they don't overlap), Pilot 1's data doesn't scramble Pilot 2's voice.
+5.  **LPI (Low Probability of Intercept):** An enemy ground station looking at that frequency sees nothing but a slightly elevated "noise floor." They know someone might be there, but they can't hear the mandarin, spanish, or french—they just hear "static."
+
+This is how spread-spectrum technology allows a modern "wolf pack" of fighter jets to coordinate in total silence.
