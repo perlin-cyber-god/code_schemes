@@ -410,3 +410,32 @@ In a modern combat scenario, a fighter jet's communication is protected by:
 3.  **AESA Directional Beams:** Physically preventing the signal from reaching the enemy's ears.
 
 This triple-threat of math, physics, and hardware ensures that even in the heat of a high-intensity conflict, the "secret melodies" of a strike package remain unbreakable and invisible.
+
+---
+
+## 17. Combat Resilience: Two Critical Intuition Checks
+
+To survive in a contested electronic environment, engineers must understand not just the math, but the **physical intuition** of how these codes behave under fire.
+
+### Intuition Check 1: The Inversion Invariance
+What happens if you flip every bit in an m-sequence (Inversion)? Does the code break?
+*   **The Physics:** In RF systems, we map binary $\{0, 1\}$ to voltages $\{+1V, -1V\}$. 
+*   **The Math:** If a chip is $+1V$ and the receiver expects $+1V$, the correlation is $(+1) \times (+1) = +1$. If you invert the signal, that chip becomes $-1V$. However, the receiver's local replica also becomes $-1V$. Their product is $(-1) \times (-1) = +1$.
+*   **Conclusion:** **Inverting an m-sequence preserves its perfect autocorrelation property.** 
+*   **Visual Analogy:** If you take a jagged mountain range (the waveform) and turn it completely upside down, an identical upside-down mold will still interlock perfectly at the center. The relative phase between chips remains the same; only the absolute polarity changes.
+
+---
+
+### Intuition Check 2: The Correlator vs. The Jammer (Processing Gain)
+This is the foundation of modern **Electronic Warfare (EW)**. How does a weak GPS or radar signal survive a massive, high-power jammer?
+
+Imagine your hardware: **Antenna** $\rightarrow$ **Mixer (Correlator)** $\rightarrow$ **Integrator (Filter)**.
+
+1.  **The Attack:** An adversary blasts a high-power "dumb" jammer—a continuous sine wave (a single massive spike on the frequency spectrum).
+2.  **The Receiver's Action:** Your antenna sucks in both the weak coded signal and the massive jammer spike. Both go into the Mixer.
+3.  **The "Magic" of the Mixer:** The mixer multiplies *everything* by your local m-sequence replica.
+    *   **The Legitimate Signal:** Since it matches the replica, it **Despreads**. The wideband energy collapses back into a narrow, sharp, high-power peak.
+    *   **The Jammer:** The mixer multiplies the jammer's pure sine wave by your chaotic, pseudo-random sequence. This **Shreds** the jammer—its power is smeared across the entire bandwidth of the m-sequence, turning it into flat, weak, wideband noise.
+4.  **The Filter:** A narrow Low-Pass Filter follows the mixer. Your concentrated signal slips right through, but **99% of the shredded jammer energy** hits the filter's walls and is rejected.
+
+**The Physical Reality:** You used the jammer's own power against it. By spreading the jammer and concentrating your signal, you gain massive protection (up to **43 dB** in GPS systems). We don't use Galois math just for stealth; we use it to survive in environments where the enemy is trying to drown us out with raw power.
