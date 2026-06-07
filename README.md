@@ -4,6 +4,39 @@ Repository for embedded DRDO code schemes. This documentation explores the trans
 
 ---
 
+## 0. Foundational Definitions: The Radar Ecosystem
+
+To understand how codes and waves work, we must first define the physical hardware that handles them. A radar is not a single device, but a complex ecosystem of components.
+
+### 1. Radar (The Whole System)
+**RADAR** stands for **RA**dio **D**etection **A**nd **R**anging. It is an integrated electromagnetic system that transmits radio waves, captures their reflections, and analyzes them to determine an object's position, speed, and direction. It is the "master entity" that orchestrates all other parts.
+
+### 2. Antenna (The Voice and Ears)
+A specialized metallic transducer that converts electrical currents into propagating electromagnetic waves (and vice versa).
+*   **Role:** The physical interface with the air. It "shouts" the signal out and "listens" for the microscopic bouncing echo.
+
+### 3. Transmitter (The Muscle)
+A high-power circuit that generates high-frequency electrical signals (like our phase-coded sequences).
+*   **Role:** The power plant. It amplifies low-power data patterns from the computer into high-energy signals strong enough to travel hundreds of miles.
+
+### 4. Receiver (The Amplifiers)
+A highly sensitive circuit designed to detect and clean up the faint electrical signals captured by the antenna.
+*   **Role:** Because echoes return millions of times weaker than the original broadcast, the receiver boosts them and filters out static for the computer.
+
+### 5. Duplexer (The Traffic Cop)
+A high-speed switch that connects both the Transmitter and the Receiver to the **same** Antenna.
+*   **Role:** It prevents the high-power transmitter from "frying" the sensitive receiver by acting as a directional valve, routing power to the antenna during transmission and to the receiver during listening.
+
+### 6. Signal Processor (The Brain)
+A high-speed computing core (FPGAs/DSPs) that runs complex mathematical algorithms on incoming data.
+*   **Role:** This is where the **Galois Math** and **Matched Filtering** happen. It strips away noise to turn raw radio static into definitive coordinates.
+
+### 7. Waveguide / Transmission Line (The Nervous System)
+Specialized shielded cables or hollow copper tubes designed to transport RF energy without leaking power.
+*   **Role:** Enclosed "pipes" that safely guide massive radio energy between the transmitter, duplexer, and antenna.
+
+---
+
 ## 1. Historical Context: The Need for Coding
 
 The development of advanced coding schemes in radar systems was driven by critical physical and operational limitations of simple pulse-echo methods.
