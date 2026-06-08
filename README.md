@@ -830,6 +830,34 @@ For hardware engineers, these phase jumps are a primary source of failure and de
 
 **Conclusion:** Engineering a high-power radar isn't just about the math of the code; it's about building hardware robust enough to survive the violent physical "snaps" required to transmit that code.
 
+---
+
+## 31. Smoothing the Kinks: Continuous Phase Modulation (CPM)
+
+If instantaneous phase "snaps" cause violent frequency spikes (Spectral Splatter), the logical solution is to smooth them out. However, the *where* and *how* of this smoothing is a major engineering challenge.
+
+### 1. The Output Filter Trap
+A common textbook solution is to place a Low-Pass Filter at the output of the transmitter to block high-frequency splatter. 
+*   **The Hardware Reality:** If you place the filter *after* a multi-megawatt Power Amplifier, the amplifier still has to process the violent phase kink. The rejected high-frequency energy from the filter physically reflects back into the amplifier, generating massive heat and potentially melting the output transistors.
+
+### 2. The Solution: Filter the Baseband (CPM)
+Instead of trying to clean up the RF output, we smooth the data **before** it reaches the modulator. This is the essence of **Continuous Phase Modulation (CPM)**.
+
+1.  **Gaussian Filtering:** Take the "crisp" square-wave data ($1$s and $0$s) and run it through a Gaussian Low-Pass filter. The sharp edges turn into smooth "rolling hills."
+2.  **Phase Ramping:** When these smooth hills are fed into a phase modulator, the phase no longer "snaps." Instead, it ramps smoothly from $0^\circ$ to $180^\circ$ over the duration of the bit.
+3.  **The Frequency Link:** Since Frequency is the derivative of Phase, a smooth linear ramp in phase corresponds to a **constant, slight shift in frequency** for a brief moment.
+
+### 3. MSK and GMSK
+This technique gives birth to **MSK (Minimum Shift Keying)** and **GMSK (Gaussian MSK)**. 
+*   **Constant Envelope:** Because the phase never "breaks," the amplitude remains perfectly constant. High-power amplifiers love constant-amplitude signals because they don't cause distortion or clipping.
+*   **Zero Splatter:** The spectral splatter is virtually eliminated, allowing satellite links and military tactical radios to operate without blinding adjacent channels.
+
+### 4. Transition to Modernity: Zadoff-Chu
+Understanding the vulnerabilities of sharp phase transitions explains why modern systems (like 5G, LTE, and advanced SDRs) have moved beyond simple Barker or Frank codes.
+
+When building a robust, multi-user synchronization layer for an environment with high interference, engineers turn to the undisputed king of polyphase sequences: **Zadoff-Chu**. Unlike Frank codes, Zadoff-Chu sequences are designed to maintain their perfect properties even in the face of the physical realities of the RF channel.
+
+
 
 
 
