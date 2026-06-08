@@ -689,6 +689,38 @@ Because the side-lobes are mathematically guaranteed to be $\leq 1$, the perform
 
 By using Barker codes, engineers sacrifice the long, complex sequences of Galois math to gain **absolute side-lobe suppression**, ensuring that the "shadows" of large objects never hide the presence of small ones.
 
+---
+
+## 26. The Physics of Implementation: Pulsed One-Shot Operation
+
+To understand Barker codes, one must understand how they are physically built and transmitted in a radar pulse.
+
+### 1. Slicing the Pulse (Chip Mapping)
+A Barker code is implemented by taking a single radar pulse and dividing its duration into equal, consecutive time slots called **chips**.
+*   **Example (Length-13):** If you want a 13-microsecond pulse, the hardware slices it into thirteen 1-microsecond chips.
+*   **The Phase Flip:** For each chip, the transmitter checks the Barker bit. 
+    *   If the bit is $+1$, the carrier wave's phase remains normal ($0^\circ$).
+    *   If the bit is $-1$, the transmitter flips the phase of the carrier wave ($180^\circ$).
+
+### 2. The "One-Shot" Property
+Unlike m-sequences or Gold codes used in continuous communication (like GPS), Barker codes are **intentionally non-cyclic**. 
+*   **The Deadline:** When the transmitter reaches the 13th bit, the transmission **stops instantly**. The radio wave goes dead silent.
+*   **Aperiodic Correlation:** Barker codes only guarantee perfect side-lobes for "aperiodic" correlation (one single block sliding past another against a silent background). If you looped the code cyclically, the tails of the second loop would bleed into the first, creating massive, unwanted side-lobes.
+
+### 3. The Radar Listen Window
+After the 13th chip is fired, the system enters the **Listen Window**.
+1.  **Fire:** Read Barker bits 1 to 13 $\rightarrow$ Transmit the 13-chip wave $\rightarrow$ Finish.
+2.  **Listen:** Shut off the transmitter and turn on the sensitive receiver. Wait (e.g., 1000 microseconds) for the echo to bounce off a distant target and return.
+3.  **Repeat:** Reset the counter and fire the same 13-bit code again for the next pulse.
+
+### 4. Why Bother? (The Energy-Resolution Trade-off)
+This slicing technique solves the most fundamental problem in radar engineering:
+*   **High Energy for Range:** A long 13-microsecond pulse puts significant energy into the air, allowing it to travel further without needing dangerously high peak voltages.
+*   **Sharp Resolution for Accuracy:** Usually, a long pulse means poor resolution (you can't distinguish close targets). However, because the pulse is "coded" into 13 chips, the receiver can **compress** that long wave back into an ultra-sharp **1-microsecond spike**.
+
+**The Result:** You get the long-range power of a 13-microsecond pulse combined with the hyper-precise accuracy of a 1-microsecond pulse.
+
+
 
 
 
