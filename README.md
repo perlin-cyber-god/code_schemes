@@ -772,6 +772,31 @@ Realizing that binary ($+1, -1$) blocks couldn't scale, engineers at Bell Labs a
 
 **Legacy:** This transition from binary Barker codes to the analog "Chirp" laid the mathematical and physical foundation for modern deep-space tracking, satellite imaging, and high-performance missile defense systems.
 
+---
+
+## 29. The PSK Progression: Expanding the Alphabet
+
+To transmit digital data over RF, engineers have three primary levers: **Amplitude**, **Frequency**, and **Phase**. Phase is the most robust against thermal noise and jamming, which is why radar and GNSS rely on it almost exclusively.
+
+### 1. BPSK (Binary Phase Shift Keying)
+*   **The Hardware:** Multiply the carrier wave by either $+1$ or $-1$.
+*   **The Physics:** This corresponds to a $0^\circ$ or $180^\circ$ phase shift.
+*   **The Advantage:** It is the most rugged modulation in existence. It takes massive interference to confuse a signal with its exact mathematical opposite.
+*   **The Limit:** You only send **1 bit per symbol**. It is slow but nearly bulletproof.
+
+### 2. QPSK (Quadrature Phase Shift Keying)
+*   **The Hardware:** The carrier is split into two paths: **In-Phase ($I$)** and **Quadrature ($Q$)**, with $Q$ delayed by $90^\circ$. BPSK is performed on both, and they are summed back together.
+*   **The Physics:** By combining $I$ and $Q$, the carrier can exist in four distinct states: $45^\circ, 135^\circ, 225^\circ, \text{ and } 315^\circ$.
+*   **The Result:** You transmit **2 bits per symbol**. You double the data rate without increasing bandwidth.
+
+### 3. 8-PSK and Beyond
+*   **The Hardware:** By mixing different amplitude ratios of the $I$ and $Q$ paths before summing, the carrier can be "steered" to 8 distinct angles ($45^\circ$ apart).
+*   **The Advantage:** You send **3 bits per symbol**, further increasing throughput.
+*   **The Limit:** As you pack more states into the $360^\circ$ circle, the distance between them (the "noise margin") shrinks. A tiny bit of atmospheric jitter or receiver noise can bump a $45^\circ$ signal into the $90^\circ$ bin, causing data errors.
+
+**Summary:** The progression from BPSK to higher-order PSK is a constant trade-off between **Data Speed** (more bits/symbol) and **Robustness** (distance between states). Military and deep-space systems often stick to BPSK or QPSK for their legendary reliability in contested environments.
+
+
 
 
 
