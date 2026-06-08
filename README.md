@@ -1031,6 +1031,41 @@ This is where **CPM (Continuous Phase Modulation)** comes in. Engineers don't ju
 ### 4. Summary: The Ultimate RF Waveform
 By combining **Zadoff-Chu math** with **CPM hardware implementation**, engineers have created the "ultimate" waveform. It looks like noise to an interceptor (LPI), it is perfectly efficient for power amplifiers (Constant Amplitude), and it allows the receiver to determine its exact location and timing with absolute mathematical certainty.
 
+---
+
+## 37. Comparison of Signal Coding Schemes
+
+To wrap up our exploration, here is a consolidated comparison of the major coding schemes used in modern radar, GNSS, and communication systems.
+
+| Feature | Barker Codes | M-Code (Cryptographic) | Frank Codes | Zadoff-Chu |
+| :--- | :--- | :--- | :--- | :--- |
+| **Domain** | Binary Phase | Binary Phase | Polyphase | Polyphase |
+| **Length Restrictions** | Maximum $L=13$ | Any length | Perfect Square ($N^2$) | Any length (Prime best) |
+| **Autocorrelation** | $\leq 1$ | Random noise floor | Perfect Zero | Perfect Zero |
+| **Cross-Correlation** | N/A | Random noise floor | Poor | Flat, Constant ($1/\sqrt{N}$) |
+| **Doppler Resilience** | Low | Moderate | Very Low | High (Chirp-like) |
+
+### Understanding the Features
+
+1.  **Domain:**
+    *   **Binary Phase:** Uses only two states ($0^\circ$ and $180^\circ$). Simple to implement but limited in complexity.
+    *   **Polyphase:** Uses multiple phase angles distributed around the unit circle. This allows for much more complex "secret melodies" and better spectral efficiency.
+
+2.  **Length Restrictions:**
+    *   **Barker Codes** are a "natural anomaly" and hit a hard brick wall at length 13.
+    *   **Frank Codes** require a square length ($4, 9, 16, 25 \dots$), which can limit flexibility in system design.
+    *   **Zadoff-Chu** is highly flexible, though choosing a prime length $N$ ensures the most robust mathematical properties.
+
+3.  **Autocorrelation (The "Match" Property):**
+    *   This measures how well a code recognizes itself. **Perfect Zero** means there is absolutely no signal "leakage" or side-lobes when the code is shifted by even one chip. This prevents ghost targets and ensures hyper-precise timing.
+
+4.  **Cross-Correlation (The "Interference" Property):**
+    *   This measures how much two different codes "clash." In multi-user systems (like GPS or 5G), we need low cross-correlation so that User A's signal doesn't drown out User B. Zadoff-Chu is the king here, providing a mathematically flat and predictable interference floor.
+
+5.  **Doppler Resilience (The "Speed" Property):**
+    *   In high-speed combat (jets, missiles), the target's motion physically twists the phase of the signal. **Low resilience** means the code "breaks" and the target disappears if it moves too fast. **High resilience** (like Zadoff-Chu) means the code behaves like a Chirp, allowing the receiver to maintain a lock even at Mach speeds.
+
+
 
 
 
