@@ -569,4 +569,34 @@ $$\text{Total Time} = \text{TOW Timestamp} + (\text{Count of 20ms bits}) + (\tex
 
 By adding the absolute time from the data message to the hyper-precise fractional time from the Gold code peak, the ambiguity vanishes completely. The receiver knows you are exactly 21,342.123 km away, not a multiple of 300 km.
 
+---
+
+## 22. The Stealth Mandate: Low Probability of Intercept (LPI)
+
+In Electronic Warfare (EW), transmitting an RF signal is a liability. The moment you "speak," you risk exposing your location and intent. **LPI** is the art of transmitting high-bandwidth signals engineered so that an adversary cannot even detect their presence.
+
+### 1. The EW Hierarchy: LPD vs. LPI vs. AJ
+*   **LPD (Low Probability of Detection):** The goal is "total invisibility." The enemy's spectrum analyzers see nothing but thermal noise.
+*   **LPI (Low Probability of Intercept):** The enemy might suspect an emitter is active, but cannot isolate or measure its parameters (frequency, modulation, intent).
+*   **AJ (Anti-Jamming):** The signal's internal structure resists active disruption (e.g., using processing gain to "shred" a jammer).
+
+### 2. Radar Intuition: The "Lighthouse" Problem
+Traditional pulse radar works like a lighthouse: it blasts a massive, high-power spike of energy in a very narrow frequency band. 
+*   **The Flaw:** This concentrated power is incredibly easy for an adversary's **ESM (Electronic Support Measures)** receivers to find. On a spectrum analyzer, it looks like a giant, unmistakable skyscraper rising out of the flat ground.
+
+### 3. Mathematical Intuition: Power Spectral Density (PSD)
+To hide the "skyscraper," we use the physics of **Power Spectral Density (PSD)**:
+$$PSD = \frac{\text{Total Power}}{\text{Bandwidth}} \quad [W/\text{Hz}]$$
+
+*   **The Trick:** We take the exact same total energy and, instead of packing it into a narrow spike, we use a pseudo-random sequence (m-sequence or Gold Code) to **spread** it across a massive bandwidth.
+*   **The Result:** By dramatically increasing the denominator (Bandwidth), the PSD plummets. The signal's energy is flattened so thin that it sinks entirely **below the thermal noise floor**. To an interceptor, your signal is indistinguishable from the background heat of the universe.
+
+### 4. Spreading vs. Despreading: The "Invisible" Peak
+This technique creates a mathematical paradox:
+1.  **Spreading (The Transmitter):** You smear your signal into the noise. You are now "silent" to the enemy.
+2.  **Despreading (The Receiver):** Because you have the "secret key" (the Gold Code), your receiver performs a matched-filter correlation. This mathematically "collects" all that spread-out energy and collapses it back into a sharp, high-power spike.
+
+**The Bottom Line:** By spreading the signal, you force the enemy to look for a needle in a haystack of noise. But because you have the "magnet" (the code), you can pull the needle out instantly. This allows a stealth fighter or a secure comms link to operate in "plain sight" without ever being detected.
+
+
 
