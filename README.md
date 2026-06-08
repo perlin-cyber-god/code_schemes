@@ -598,5 +598,34 @@ This technique creates a mathematical paradox:
 
 **The Bottom Line:** By spreading the signal, you force the enemy to look for a needle in a haystack of noise. But because you have the "magnet" (the code), you can pull the needle out instantly. This allows a stealth fighter or a secure comms link to operate in "plain sight" without ever being detected.
 
+---
+
+## 23. The LPI Killer: Why BMA Fails and How "Delay-and-Multiply" Succeeds
+
+A common question in Electronic Warfare is: *Can an intercept officer use the Berlekamp-Massey Algorithm (BMA) to break an LPI signal?* The answer is a definitive **No**.
+
+### 1. The Fatal Flaw of BMA in EW
+The Berlekamp-Massey Algorithm is a **cryptographic weapon**, not a signal detection weapon. 
+*   **The Problem:** BMA operates in Galois Field $GF(2)$. It requires mathematically perfect 1s and 0s to function.
+*   **The Reality of LPI:** In an LPI regime, the signal power is smeared **below the thermal noise floor**. An Analog-to-Digital Converter (ADC) doesn't see 1s and 0s; it sees a "chaotic soup" of analog voltages (e.g., $+0.04V, -0.12V$).
+*   **The Failure:** If you feed this noise-dominant soup into BMA, the algorithm's discrepancy calculation ($d$) will trigger constantly, the polynomial will expand infinitely, and the process will fail. You cannot use BMA until **after** you have extracted the signal from the noise.
+
+### 2. The Intercept Technique: Delay-and-Multiply
+To force an LPI signal out of the noise without knowing the "secret key" (the code), interceptors use the physical properties of the m-sequence against itself—specifically the **Shift-and-Add property**.
+
+#### The Intercept Hardware Logic:
+1.  **Signal Capture:** The antenna picks up the weak LPI signal $s(t)$ buried in massive thermal noise $n(t)$.
+2.  **The Split:** The RF signal is split into two identical paths.
+3.  **The Delay:** One path is delayed by exactly one chip duration ($T_c$).
+4.  **The Mixer (Multiplication):** Both paths are fed into an RF mixer, effectively calculating:
+    $$(s(t) + n(t)) \times (s(t - T_c) + n(t - T_c))$$
+
+#### The Physics of the Collapse:
+*   **Noise $\times$ Noise:** Since thermal noise is uncorrelated, multiplying it by a delayed version of itself just results in more flat, wideband "garbage."
+*   **Signal $\times$ Signal:** Because the signal is an m-sequence, multiplying it by its own delayed version invokes the Shift-and-Add property. Since $(+1 \times +1) = 1$ and $(-1 \times -1) = 1$, the pseudo-random phase transitions are **stripped off** in real-time hardware.
+
+**The Result:** The wideband LPI signal violently collapses into a massive, unmodulated **Continuous-Wave (CW) spike** at the chip rate frequency. Once this spike is visible, the interceptor has "pulled the signal out of the noise." Only then can they digitize the hard chips and finally deploy BMA to crack the underlying polynomial.
+
+
 
 
