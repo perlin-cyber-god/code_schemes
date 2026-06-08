@@ -1119,6 +1119,39 @@ Generating an FMCW chirp spanning 4 GHz of bandwidth requires flawless analog li
 Because Zadoff-Chu sequences are foundational to 5G NR and LTE networks, a ZC-PMCW radar can seamlessly blend communications and radar functionality.
 *   **The Concept:** A vehicle can transmit a data packet to another car while simultaneously analyzing the reflected echo of that **exact same transmission** to track the vehicle ahead. This dual-use of the waveform is the cornerstone of future V2X (Vehicle-to-Everything) networks.
 
+---
+
+## 40. Multiple Object Detection: The "Digital Prism" in Action
+
+We have seen how a single Zadoff-Chu signal can be "de-chirped" into a single frequency spike. But the real magic happens when the radar needs to see the entire world at once—multiple cars, pedestrians, and obstacles all at different distances and speeds.
+
+### 1. The Real-Life Scenario: A Crowded Intersection
+Imagine an autonomous vehicle sitting at a busy intersection. Its PMCW radar transmits a Zadoff-Chu "digital chirp." In front of the car, there are three objects:
+1.  **A Pedestrian** only 5 meters away.
+2.  **A Car** 20 meters away.
+3.  **A Delivery Truck** 50 meters away.
+
+### 2. How the Radar Sees "Layers"
+When the radar pulse hits these objects, it doesn't return as one big mess. It returns as **three distinct echoes**, each delayed by a different amount of time based on their distance.
+
+*   **Echo 1 (Pedestrian):** Arrives almost instantly. The "sliding whistle" lines are very close together.
+*   **Echo 2 (Car):** Arrives a bit later. The lines are further apart.
+*   **Echo 3 (Truck):** Arrives last. The lines have a wide gap.
+
+### 3. The Digital Prism (FFT) Resolution
+When these three echoes enter the receiver's mixer simultaneously, the **De-Chirping** process collapses each one into its own unique **Beat Frequency**:
+*   The Pedestrian becomes a **50 Hz** tone.
+*   The Car becomes a **200 Hz** tone.
+*   The Truck becomes a **500 Hz** tone.
+
+The receiver then runs a single **FFT (Fast Fourier Transform)**. On the screen, the radar doesn't see a "noisy soup." It sees **three massive, needle-sharp spikes** at exactly 50 Hz, 200 Hz, and 500 Hz. 
+
+### 4. Why Zadoff-Chu is the Hero Here
+In a traditional system, these signals might "smear" into each other. But because Zadoff-Chu has **Zero Auto-Correlation**, the spike for the Pedestrian stays perfectly sharp and doesn't create any "shadow" or interference that hides the Car or the Truck.
+
+**The Result:** The car's computer can instantly look at the "spike map" and say: *"Object at 5m (Small Spike), Object at 20m (Medium Spike), Object at 50m (Large Spike)."* This ability to resolve multiple targets into distinct, clean frequency bins is what allows modern radars to "see" with high-definition clarity in complex, dangerous environments.
+
+
 
 
 
