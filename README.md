@@ -543,3 +543,30 @@ Gold codes scale down the leakage by increasing the length ($L$) of the code. Th
 
 By choosing a sufficiently long Gold code, the engineering team forces the $100 \text{ W}$ interferer's leakage down below $1 \text{ W}$, allowing the receiver to cleanly separate the signals.
 
+---
+
+## 21. The GPS "Russian Nesting Doll" Strategy: Solving the 300km Ambiguity
+
+If a satellite is 20,000 km away, and your Gold code repeats every 300 km (1 ms), the raw code alone is ambiguous: the satellite could be at X km, or $X \pm 300 \text{ km}$. Engineers solve this using a beautiful, layered architecture.
+
+### Level 1: The Gold Code (The 1ms "Fine" Ruler)
+*   **Property:** Repeats every 1ms.
+*   **Distance Window:** $\approx 300 \text{ km}$.
+*   **Role:** Provides ultra-precise measurement (nanosecond level), but is highly ambiguous. It's like a ruler with millimeter marks but no numbers.
+
+### Level 2: The Data Bit (The 20ms "Medium" Ruler)
+*   **Property:** Every 20ms, the satellite flips the polarity of the Gold code to send a bit of data.
+*   **Distance Window:** $3 \times 10^8 \text{ m/s} \times 0.020 \text{ s} = \mathbf{6,000 \text{ km}}$.
+*   **Role:** This 20ms boundary "blows up" the ambiguity window. Since a satellite orbiting at 20,200 km can only physically be between ~20,200 km and ~25,800 km away from any point on Earth (a 5,600 km spread), a 6,000 km window is wide enough to identify exactly which "chunk" of space the satellite is in.
+
+### Level 3: The "Time of Week" (TOW) Stamp (The 6s "Master" Ruler)
+*   **Property:** Every 6 seconds, the satellite modulates a "Time of Week" (TOW) count in the Navigation Message.
+*   **Role:** The TOW tells the receiver the exact absolute timestamp of the transmission according to the satellite's atomic clock, providing the ultimate starting point for the calculation.
+
+### The Final Integration
+The DSP hardware tracks all three layers simultaneously to calculate the **True Transit Time**:
+$$\text{Total Time} = \text{TOW Timestamp} + (\text{Count of 20ms bits}) + (\text{Count of 1ms codes}) + (\text{Fractional 1ms phase})$$
+
+By adding the absolute time from the data message to the hyper-precise fractional time from the Gold code peak, the ambiguity vanishes completely. The receiver knows you are exactly 21,342.123 km away, not a multiple of 300 km.
+
+
