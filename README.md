@@ -857,6 +857,47 @@ Understanding the vulnerabilities of sharp phase transitions explains why modern
 
 When building a robust, multi-user synchronization layer for an environment with high interference, engineers turn to the undisputed king of polyphase sequences: **Zadoff-Chu**. Unlike Frank codes, Zadoff-Chu sequences are designed to maintain their perfect properties even in the face of the physical realities of the RF channel.
 
+---
+
+## 32. The Mathematical Derivation of Frank Codes
+
+While we have discussed the hardware challenges of polyphase sequences, we must understand how they are mathematically constructed. Frank codes are the foundation of polyphase pulse compression.
+
+### 1. The Core Parameters
+To build a Frank code, we select a fundamental integer $N$. 
+*   **Total Length ($L$):** The resulting sequence will have a length of $L = N^2$.
+*   **Phase Alphabet:** Unlike binary codes ($\{0, 1\}$), a Frank code uses a "polyphase" alphabet—angles distributed around the unit circle.
+
+### 2. The Matrix Construction
+Frank codes are derived from an $N \times N$ matrix. Each element in the $i$-th row and $j$-th column is assigned a specific phase angle $\phi_{i,j}$ according to the formula:
+$$\phi_{i,j} = \frac{2\pi}{N} (i-1)(j-1)$$
+*(Where $i$ and $j$ range from $1$ to $N$)*.
+
+### 3. Numerical Example: $N = 3$ (Length $L = 9$)
+For $N=3$, we use a $3 \times 3$ matrix. The fundamental phase step is $2\pi/3$ ($120^\circ$).
+
+| Row ($i$) | Col 1 ($j=1$) | Col 2 ($j=2$) | Col 3 ($j=3$) |
+| :--- | :--- | :--- | :--- |
+| **Row 1** | $\frac{2\pi}{3}(0)(0) = \mathbf{0}$ | $\frac{2\pi}{3}(0)(1) = \mathbf{0}$ | $\frac{2\pi}{3}(0)(2) = \mathbf{0}$ |
+| **Row 2** | $\frac{2\pi}{3}(1)(0) = \mathbf{0}$ | $\frac{2\pi}{3}(1)(1) = \mathbf{\frac{2\pi}{3}}$ | $\frac{2\pi}{3}(1)(2) = \mathbf{\frac{4\pi}{3}}$ |
+| **Row 3** | $\frac{2\pi}{3}(2)(0) = \mathbf{0}$ | $\frac{2\pi}{3}(2)(1) = \mathbf{\frac{4\pi}{3}}$ | $\frac{2\pi}{3}(2)(2) = \mathbf{\frac{8\pi}{3} \equiv \frac{2\pi}{3}}$ |
+
+*Note: All angles are calculated modulo $2\pi$.*
+
+### 4. Serialization into the Final Sequence
+To create the radar pulse, the hardware simply reads the matrix row-by-row and transmits the corresponding phase shifts:
+**Final Sequence ($N=3$):**
+$$[0, 0, 0, \quad 0, \frac{2\pi}{3}, \frac{4\pi}{3}, \quad 0, \frac{4\pi}{3}, \frac{2\pi}{3}]$$
+
+### 5. Physical Intuition: The "Stepped Chirp"
+If you look closely at the sequence, you'll see that the phase is not jumping randomly. Each row represents a specific **frequency**.
+*   **Row 1:** Phase is constant ($0$). Frequency shift = 0.
+*   **Row 2:** Phase increases by $120^\circ$ per chip. This corresponds to a constant positive frequency shift.
+*   **Row 3:** Phase increases even faster. 
+
+By stringing these "frequency steps" together, the Frank code acts as a **digital approximation of a Chirp (LFM)**. This is why it provides such excellent pulse compression: it mimics the smooth frequency sweep of a Chirp using discrete, programmable phase steps.
+
+
 
 
 
